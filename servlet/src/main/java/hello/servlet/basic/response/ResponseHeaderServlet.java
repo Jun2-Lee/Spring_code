@@ -15,9 +15,17 @@ public class ResponseHeaderServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setStatus(HttpServletResponse.SC_OK);
 
+        //content 와 charset 지정
         response.setContentType("text/plain");
         response.setCharacterEncoding("utf-8");
 
+        redirect(response);
         response.getWriter().write("안녕하세요");
+    }
+
+    //redirect
+    private void redirect(HttpServletResponse response) throws IOException{
+
+        response.sendRedirect("/basic/hello-form.html");
     }
 }
