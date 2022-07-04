@@ -37,7 +37,6 @@ public class FrontControllerServletV4 extends HelloServlet {
             return;
         }
 
-        //paramMap
 
         Map<String, String> paramMap = creatParamMap(request);
         Map<String, Object> model = new HashMap<>();
