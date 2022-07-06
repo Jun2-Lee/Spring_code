@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@Controller
+@Controller // Controller + ResponseBody = RestController
 public class ResponseBodyController {
     @GetMapping("/response-body-v1")
     public void responseBodyV1(HttpServletResponse response) throws IOException {
@@ -36,7 +36,7 @@ public class ResponseBodyController {
         HelloData helloData = new HelloData();
         helloData.setUsername("userA");
         helloData.setAge(20);
-        return new ResponseEntity<>(helloData, HttpStatus.OK);
+        return new ResponseEntity<>(helloData, HttpStatus.OK); //Status 를 동적으로 바꾸고 싶을 때 사용
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -48,4 +48,6 @@ public class ResponseBodyController {
         helloData.setAge(20);
         return helloData;
     }
+
+
 }
