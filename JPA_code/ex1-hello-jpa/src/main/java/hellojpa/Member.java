@@ -7,6 +7,14 @@ import javax.persistence.Table;
 @Entity
 public class Member {
 
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Member() {
+    }
+
     @Id
     private Long id;
     private String name;
