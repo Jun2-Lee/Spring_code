@@ -23,5 +23,7 @@ public class Member {
     private Date lastModifiedDate;
     @Lob
     private String description;
+    @Transient
+    private int temp;
 
 }
