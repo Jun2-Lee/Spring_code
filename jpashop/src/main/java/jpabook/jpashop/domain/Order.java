@@ -11,6 +11,16 @@ public class Order {
     @Column(name = "ORDER_ID")
     private Long id;
 
+    @Column(name = "MEMBER_ID")
+    private Long memberId;
+
+    private Member member;
+
+    private LocalDateTime orderDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     public Long getId() {
         return id;
     }
@@ -42,14 +52,11 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+    public Member getMember() {
+        return member;
+    }
 
-    @Column(name = "MEMBER_ID")
-    private Long memberId;
-
-    private LocalDateTime orderDate;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
-
-
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
