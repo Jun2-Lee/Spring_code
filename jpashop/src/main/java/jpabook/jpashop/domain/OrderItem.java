@@ -20,6 +20,14 @@ public class OrderItem {
     private int count;
 
 
+
+
+
+
+
+
+
+
     public Order getOrder() {
         return order;
     }
@@ -43,7 +51,6 @@ public class OrderItem {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public int getOrderPrice() {
         return orderPrice;
