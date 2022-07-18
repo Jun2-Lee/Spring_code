@@ -20,9 +20,7 @@ public class JpaMain {
         ts.begin();
 
         try{
-            Order order = new Order();
-            em.persist(order);
-            order.addOrderItem(new OrderItem());
+
 
 
             ts.commit();
