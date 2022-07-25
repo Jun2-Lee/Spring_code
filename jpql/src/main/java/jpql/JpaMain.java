@@ -21,16 +21,39 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-            Member singleResult = em.createQuery("select m From Member as m where m.username = :username", Member.class)
-                    .setParameter("username", "member1")
-                    .getSingleResult();
+            List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username, m.age) From Member as m", MemberDTO.class)
+                   .getResultList();// 모든게 영속성 컨텍스트에 관리됨
 
-            System.out.println("singleResult.getUsername() = " + singleResult.getUsername());
-            
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
-            for(Member m : members){
-                System.out.println("m.getUsername() = " + m.getUsername());
+            MemberDTO memberDTO = result.get(0);
+            System.out.println("memberDTO = " + memberDTO.getUsername());
+            System.out.println("memberDTO = " + memberDTO.getAge());
+
+
+            // Paging
+            List<Member> resultList = em.createQuery("select m from Member m order by m.id desc", Member.class)
+                    .setFirstResult(0)
+                    .setMaxResults(10)
+                    .getResultList();
+
+            System.out.println("resultList.size() = " + resultList.size());
+            for(Member member1 : resultList){
+                System.out.println("member1 = " + member1);
+            }
+
+            em.flush();
+            em.clear();
+
+            // join
+            List<Member> query2 = em.createQuery("select m from Member m left join m.team t where t.name = :teamName", Member.class)
+                    .setParameter("teamName", "TeamA")
+                    .getResultList();
+
+
+
+            System.out.println("================");
+
+            for(Member member1 : query2){
+                System.out.println("member1.getTeam() = " + member1.getTeam());
             }
 
             ts.commit();
