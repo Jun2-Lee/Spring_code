@@ -27,14 +27,19 @@ public class OrderService {
     //주문
     @Transactional
     public Long order(Long memberId, Long itemId, int count){
+
+        //엔티티 조회
         Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.fineOne(itemId);
 
+        //배송정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
 
+        //주문상품 생성
         OrderItem orderItem = OrderItem.creatOrderItem(item, item.getPrice(), count);
 
+        //주문 생성
         Order order = Order.creatOrder(member, delivery, orderItem);
 
         orderRepository.save(order);
