@@ -20,10 +20,11 @@ public class Member {
     @NotEmpty
     private String name;
 
+
     @Embedded
     private Address address;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
