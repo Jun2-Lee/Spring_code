@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> orderV1(){
@@ -26,24 +29,38 @@ public class OrderSimpleApiController {
     }
 
     @GetMapping("/api/v2/simple-orders")
-    public List<SimpleOrderDtd> ordersV2(){
+    public List<SimpleOrderDto> ordersV2(){
         List<Order> orders = orderRepository.findAll(new OrderSearch());
-        List<SimpleOrderDtd> result = orders.stream()
-                .map(o -> new SimpleOrderDtd(o))
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());
 
         return result;
     }
 
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+
+        return orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> ordersV4() {
+        return orderSimpleQueryRepository.findOrderDto();
+    }
+
     @Data
-    static class SimpleOrderDtd {
+    static class SimpleOrderDto {
         private Long orderId;
         private String name;
         private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private Address address;
 
-        public SimpleOrderDtd(Order order) {
+        public SimpleOrderDto(Order order) {
             orderId = order.getId();
             name = order.getMember().getName();
             orderDate = order.getOrderDate();
@@ -51,4 +68,5 @@ public class OrderSimpleApiController {
             address = order.getDelivery().getAddress();
         }
     }
+
 }
